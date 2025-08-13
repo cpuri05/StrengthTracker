@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workout Tracker</title>
+    <!-- PWA manifest and theme colour.  The manifest enables "Add to Home Screen" on mobile devices and
+         defines app icons and display behaviour.  The theme colour tints the browser UI on supported
+         platforms. -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#009688" />
+    <!-- The application uses a minimal custom React-like library implemented in myreact.js.  -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Button shown when the app is installable on mobile.  It remains hidden
+         until the `beforeinstallprompt` event fires.  Clicking the button
+         triggers the installation prompt. -->
+    <button id="installBtn" class="btn btn--primary install-btn" style="display: none; position: fixed; bottom: 1rem; right: 1rem; z-index: 1000;">
+      Add to Home Screen
+    </button>
+    <script src="myreact.js"></script>
+    <script src="app.js"></script>
+    <script>
+      // Register the service worker to enable offline caching and support
+      // Add to Home Screen functionality.  This registration happens after
+      // the page has loaded.  If the browser does not support service
+      // workers, registration is skipped.
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('service-worker.js').catch(function (err) {
+            console.error('Service worker registration failed:', err);
+          });
+        });
+      }
+
+      // Handle the PWA installation prompt.  When the browser detects that
+      // the application can be installed, it dispatches the
+      // `beforeinstallprompt` event.  Capture this event, prevent the
+      // default mini-infobar from appearing and show a custom button to
+      // trigger installation.  Once the user responds to the prompt,
+      // hide the button.
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const installBtn = document.getElementById('installBtn');
+        if (installBtn) {
+          installBtn.style.display = 'inline-flex';
+          installBtn.addEventListener('click', () => {
+            if (deferredPrompt) {
+              deferredPrompt.prompt();
+              deferredPrompt.userChoice.then(() => {
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+              });
+            }
+          }, { once: true });
+        }
+      });
+    </script>
+  </body>
+</html>

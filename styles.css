@@ -1,0 +1,454 @@
+/*
+ * Global styles for the Workout Tracker application.
+ *
+ * This stylesheet defines a modern, mobile‑friendly aesthetic
+ * inspired by the provided Strength Tracker design. A small set
+ * of CSS custom properties (variables) control colours, spacing,
+ * typography and shadows to ensure a cohesive look throughout
+ * the app. Tabs, cards, forms and buttons all share the same
+ * palette and rounded corners.  Media queries adjust layouts
+ * on smaller screens.
+ */
+
+/* Colour and layout variables */
+:root {
+  /* Palette */
+  --color-primary: #009688;
+  --color-primary-hover: #00796b;
+  --color-primary-active: #005f56;
+  --color-background: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-text: #374151;
+  --color-text-secondary: #6b7280;
+  --color-border: #e5e7eb;
+  --color-border-focus: #009688;
+  /* Sizing */
+  --radius: 8px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --font-base: 16px;
+
+  /* Additional colours for secondary elements */
+  --color-accent: #80cbc4;
+  --color-danger: #c0392b;
+  --color-success: #2e7d32;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* Container for the entire application */
+#root {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header styling */
+.app-header {
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.app-title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.app-stats {
+  margin-top: 0.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+.app-stats .stat-label {
+  margin-right: 0.25rem;
+  font-weight: 500;
+}
+.app-stats .stat-value {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Tab navigation bar */
+.tab-nav {
+  display: flex;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.25rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  flex: 1;
+  min-width: 80px;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  background-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.tab-btn.active {
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+}
+
+/* Card component used throughout the app */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/*
+ * Stats grid and personal records styling for the progress page.
+ * These classes mirror some of the layout found in the example
+ * Strength Tracker design.  Cards within the stats grid show
+ * global averages and personal records in a tidy, responsive
+ * arrangement.  Additional classes handle the layout of
+ * individual record entries.
+ */
+
+.stats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 240px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+}
+
+.stat-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Display averages and record values */
+.stat-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-display .stat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.stat-display .stat-label {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.stat-display .stat-value {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Personal records list */
+.pr-list {
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pr-item {
+  padding: 0.5rem;
+  background-color: var(--color-background);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--color-primary);
+}
+
+.pr-exercise {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--color-text);
+}
+
+.pr-records {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.pr-record {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.pr-record-label {
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  margin-bottom: 0.1rem;
+}
+
+.pr-record-value {
+  font-weight: 600;
+  color: var(--color-primary);
+  font-size: 0.9rem;
+}
+
+.no-data-text {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin: 0.5rem 0;
+}
+
+/* Primary button variant and full width utility */
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn--primary:active {
+  background-color: var(--color-primary-active);
+}
+
+.btn--full-width {
+  width: 100%;
+}
+
+/* Install button for PWA.  Positioned in the bottom right on mobile and
+   desktop. */
+.install-btn {
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+/* Reduce font sizes on small screens for better fit */
+@media (max-width: 600px) {
+  .stat-card {
+    padding: 0.75rem;
+  }
+  .stat-card h3 {
+    font-size: 0.9rem;
+  }
+  .stat-display .stat-item {
+    font-size: 0.85rem;
+  }
+}
+
+/* Form groups for aligning labels and inputs */
+.form-group {
+  margin-bottom: 0.75rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+/* Base styles for inputs, selects and textarea */
+.form-group input[type='text'],
+.form-group input[type='number'],
+.form-group input[type='date'],
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input[type='text']:focus,
+.form-group input[type='number']:focus,
+.form-group input[type='date']:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 150, 136, 0.2);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+/* Generic form control styling */
+.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(0, 150, 136, 0.2);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn:active {
+  background-color: var(--color-primary-active);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Alert messages for success and error feedback */
+.alert {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+
+.alert-success {
+  background-color: rgba(0, 150, 136, 0.1);
+  border: 1px solid rgba(0, 150, 136, 0.2);
+  color: var(--color-primary);
+}
+
+.alert-error {
+  background-color: rgba(192, 21, 47, 0.1);
+  border: 1px solid rgba(192, 21, 47, 0.2);
+  color: #c0152f;
+}
+
+/* Table for displaying entries */
+/* Table for displaying entries */
+.entries-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.entries-table th,
+.entries-table td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+
+.entries-table th {
+  background-color: var(--color-background);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Chart containers ensure canvases scale responsively */
+.chart-container {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+canvas {
+  width: 100% !important;
+  height: 260px !important;
+  display: block;
+}
+
+/* Responsive design: stack navigation buttons on small screens */
+@media (max-width: 600px) {
+  .tab-nav {
+    flex-direction: column;
+  }
+  .tab-btn {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .tab-btn:last-child {
+    border-bottom: none;
+  }
+}
