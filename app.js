@@ -468,6 +468,28 @@ function App() {
   // prepopulated with a set of common exercises.  Users can add to
   // this bank via the log page.
   const [exerciseBank, setExerciseBank] = React.useState(loadExerciseBank());
+
+  // --- Microsoft Clarity integration for single‑page navigation ---
+  /**
+   * Notify Microsoft Clarity when the user navigates to a new tab inside
+   * this single-page application.  Without this call, Clarity may treat
+   * all interactions as occurring on a single page, which can cause
+   * heatmaps and dashboard reports to appear empty or greyed out.
+   *
+   * @param {string} viewName The logical page name (e.g., 'log', 'plan', 'progress').
+   */
+  function trackClarity(viewName) {
+    if (typeof window !== 'undefined' && typeof window.clarity === 'function') {
+      try {
+        // Update the `page` tag for Clarity.  Clarity queues this call
+        // internally if its script has not finished loading.
+        window.clarity('set', 'page', viewName);
+      } catch (err) {
+        // Silently ignore any errors if Clarity is not ready.
+        console.debug('Clarity track failed', err);
+      }
+    }
+  }
   // Plan page state
   const [planSelectedDays, setPlanSelectedDays] = React.useState({});
   const [planExercises, setPlanExercises] = React.useState({});
@@ -831,7 +853,10 @@ function App() {
       'button',
       {
         className: view === 'log' ? 'tab-btn active' : 'tab-btn',
-        onClick: () => setView('log'),
+        onClick: () => {
+          setView('log');
+          trackClarity('log');
+        },
       },
       'Log'
     ),
@@ -839,7 +864,10 @@ function App() {
       'button',
       {
         className: view === 'plan' ? 'tab-btn active' : 'tab-btn',
-        onClick: () => setView('plan'),
+        onClick: () => {
+          setView('plan');
+          trackClarity('plan');
+        },
       },
       'Plan'
     ),
@@ -847,7 +875,10 @@ function App() {
       'button',
       {
         className: view === 'progress' ? 'tab-btn active' : 'tab-btn',
-        onClick: () => setView('progress'),
+        onClick: () => {
+          setView('progress');
+          trackClarity('progress');
+        },
       },
       'Progress'
     )
