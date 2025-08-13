@@ -10,7 +10,10 @@
  * name should be bumped so that outdated caches are purged.
  */
 
-const CACHE_NAME = 'workout-tracker-v1';
+// Update the cache name to reflect the GitHub repo and bump the version
+// when releasing new versions.  This ensures old caches are cleared
+// properly when the application is updated.
+const CACHE_NAME = 'strength-tracker-v1';
 // List of assets to cache.  These must be relative to the service
 // worker's location.  Add any additional static files here if they
 // should be available offline.

@@ -3,11 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Workout Tracker</title>
+    <title>Strength Tracker</title>
     <!-- PWA manifest and theme colour.  The manifest enables "Add to Home Screen" on mobile devices and
          defines app icons and display behaviour.  The theme colour tints the browser UI on supported
          platforms. -->
-    <link rel="manifest" href="manifest.json" />
+    <!-- When deploying to GitHub Pages the PWA resides under
+         /StrengthTracker/ so we prefix the manifest URL accordingly.
+         Without this prefix the browser would fetch `/manifest.json`
+         from the root of the domain, which doesn’t exist on GitHub
+         Pages. */【80547752977172†L43-L63】 -->
+    <link rel="manifest" href="/StrengthTracker/manifest.json" />
+    <!-- Canonical URL to the GitHub Pages site.  This helps search
+         engines identify the preferred URL and is required for
+         consistent PWA installation on GitHub Pages. -->
+    <link rel="canonical" href="https://cpuri05.github.io/StrengthTracker/" />
     <meta name="theme-color" content="#009688" />
     <!-- The application uses a minimal custom React-like library implemented in myreact.js.  -->
     <link rel="stylesheet" href="styles.css" />
@@ -29,9 +38,16 @@
       // workers, registration is skipped.
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
-          navigator.serviceWorker.register('service-worker.js').catch(function (err) {
-            console.error('Service worker registration failed:', err);
-          });
+          // Register the service worker from the GitHub Pages sub-path.
+          // When served from cpuri05.github.io/StrengthTracker/ the
+          // service worker is available at `/StrengthTracker/service-worker.js`
+          // and must be registered with the same scope to control
+          // requests within the sub-directory【80547752977172†L43-L63】.
+          navigator.serviceWorker
+            .register('/StrengthTracker/service-worker.js', { scope: '/StrengthTracker/' })
+            .catch(function (err) {
+              console.error('Service worker registration failed:', err);
+            });
         });
       }
 
